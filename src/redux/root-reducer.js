@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 
-import pizzaReducer from '../redux/pizza/pizza.reducer';
+import pizzaReducer from './news/news.reducer';
 
 
 const rootReducer = combineReducers({
