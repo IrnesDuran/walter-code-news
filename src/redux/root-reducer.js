@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 
-import pizzaReducer from './news/news.reducer';
+import newsReducer from './news/news.reducer';
 
 
 const rootReducer = combineReducers({
-    pizza: pizzaReducer
+    articles: newsReducer
 
 });
 
