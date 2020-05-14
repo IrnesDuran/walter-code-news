@@ -1,0 +1,4 @@
+export const searchActionTypes = {
+    SET_SEARCHFIELD: 'SET_SEARCHFIELD',
+    CLEAR_SEARCHFIELD:"CLEAR_SEARCHFIELD"
+};

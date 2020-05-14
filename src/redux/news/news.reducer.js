@@ -2,17 +2,31 @@ import { newsActionTypes } from './news.types';
 
 const INITIAL_STATE = {
   top_articles:[],
-  isLoading:false  
+  isLoading:false,
+  buttonLoader:false  
 };
 
 
 const newsReducer = (state=INITIAL_STATE, action) => {
     switch (action.type) {
       case newsActionTypes.SET_TOP_NEWS:
-           return {...state,
+          return {...state,
             top_articles: action.item,
             isLoading:false
-           };
+          };
+      case newsActionTypes.FETCH_NEWS_PAGES:
+          return {...state,
+            top_articles:[...state.top_articles,...action.item],
+            buttonLoader:false
+          };
+      case newsActionTypes.SET_BUTTON_LOADER:
+          return {...state,
+            buttonLoader:true
+          };
+      case newsActionTypes.CLEAR_NEWS:
+          return {...state,
+            top_articles:[],
+          };
       case newsActionTypes.SET_IS_LOADING:
            return {...state,
             isLoading:true

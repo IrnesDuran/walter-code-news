@@ -5,24 +5,56 @@ export const setTopNews = (item) => ({
     item: item
 });
 
+export const fetchNewsPages = (item) => ({
+    type: newsActionTypes.FETCH_NEWS_PAGES,
+    item: item
+});
+
+export const setButtonLoader = () => ({
+    type: newsActionTypes.SET_BUTTON_LOADER,
+});
+
+
 export const setIsLoading = () => ({
     type: newsActionTypes.SET_IS_LOADING,
 });
 
+export const clearNews = () => ({
+    type: newsActionTypes.CLEAR_NEWS,
+});
 
-let currentPage=1;
-export const initNews = (item) => {
-    //currentPage++;
-    console.log(currentPage);
+
+
+
+export const initNews = (url) => {
     return dispatch => {
         dispatch(setIsLoading());
 
         const fetchData = async () => {
-          const res = await fetch(`http://newsapi.org/v2/top-headlines?country=us&page=${currentPage}&apiKey=45bd70397f764ef39b884110ac6fb3c1`);
+          const res = await fetch(url);
           const results = await res.json();
-            dispatch(setTopNews(results.articles));
+            
+          dispatch(setTopNews(results.articles));
+
         };
         fetchData();
     }
 };
+
+
+
+export const initNewsPages = (url) => {
+    return dispatch => {
+        dispatch(setButtonLoader());
+        const fetchData = async () => {
+          const res = await fetch(url);
+          const results = await res.json();
+            
+          dispatch(fetchNewsPages(results.articles));
+
+        };
+        fetchData();
+    }
+};
+
 
