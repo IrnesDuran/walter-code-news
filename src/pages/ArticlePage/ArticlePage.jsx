@@ -14,7 +14,7 @@ const ArticlePage = (props) => {
 
  
     return(
-        <div className="h-full mx-24 lg:mx-48 bg-white py-32 px-10 lg:px-32 m-auto">
+        <div className="h-full mx-0 md:mx-24 lg:mx-48 bg-white py-32 px-10 lg:px-32 m-auto">
             <h1 className="font-black text-xl md:text-4xl">{relatedArticle[0].title}</h1>
             {relatedArticle[0].author ? (<h4 className="font-black text-teal-500">{`by ${relatedArticle[0].author}`}</h4>) : null}
             <h4 className="text-tertiary my-2">{displayDate}</h4>
