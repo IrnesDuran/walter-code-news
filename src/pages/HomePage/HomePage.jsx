@@ -4,54 +4,59 @@ import { connect } from 'react-redux';
 import {  initNews, initNewsPages, clearNews } from '../../redux/news/news.actions';
 import { clearSearchField } from '../../redux/search/search.actions';
 
+
 import Article from '../../components/Article/Article';
 import Spinner from '../../components/Spinner/Spinner';
 import CustomButtom from '../../components/CustomButton/CustomButton';
 
+
 const HomePage = (props) => {
   
-
+    //Counter for page number
     const [currentPage, setCurrentPage] = useState(1);
-    const {onInitNews, initNewsPages, clearNews,search, clearSearchField} = props;
+    const {onInitNews, initNewsPages, clearNews,search, clearSearchField,sortBy} = props;
 
+    //Search term URL encoding
+    const delimitedSearch = search.split(' ').join('%20');
 
-
-    const sortTerm = "popularity"
     //URL endpoint selection, whether it is for top articles, or searched terms
-    const initialUrl =  search.length ? `https://newsapi.org/v2/everything?q=${search}&sortBy=${sortTerm}&apiKey=45bd70397f764ef39b884110ac6fb3c1`:`http://newsapi.org/v2/top-headlines?country=us&apiKey=45bd70397f764ef39b884110ac6fb3c1`;
+    const initialUrl =  search.length ? `https://newsapi.org/v2/everything?q="${delimitedSearch}"&sortBy=${sortBy}&apiKey=e0966cb0fcd14b89aab54ea0bea5f22d`:`http://newsapi.org/v2/top-headlines?country=us&apiKey=e0966cb0fcd14b89aab54ea0bea5f22d`;
 
-    const additionalPagesUrl = search.length ? `https://newsapi.org/v2/everything?q=${search}&sortBy=${sortTerm}&page=${currentPage+1}&apiKey=45bd70397f764ef39b884110ac6fb3c1`: `http://newsapi.org/v2/top-headlines?country=us&page=${currentPage+1}&apiKey=45bd70397f764ef39b884110ac6fb3c1`;
+    //URL endpoint selection, whether it is for top articles additional pages, or searched terms additional pages
+    const additionalPagesUrl = search.length ? `https://newsapi.org/v2/everything?q="${delimitedSearch}"&sortBy=${sortBy}&page=${currentPage+1}&apiKey=e0966cb0fcd14b89aab54ea0bea5f22d`: `http://newsapi.org/v2/top-headlines?country=us&page=${currentPage+1}&apiKey=e0966cb0fcd14b89aab54ea0bea5f22d`;
 
+    //alternative API key because of request number restriction
+    //gmail :45bd70397f764ef39b884110ac6fb3c1
+    //code gmail:f930211ac5a543f0a784268fbda87a67
+    //code hotmail: a4bf2438c6a14afdb96adf464ea6b166
+    //walter: e0966cb0fcd14b89aab54ea0bea5f22d
 
+    //clear search field state
+       useEffect(() => {
+        clearSearchField();
+        clearNews();
+    },[]);
+
+    // Reload top news state
+    useEffect(() => {
+        clearNews();            
+        setCurrentPage(1);
+        onInitNews(initialUrl);
+    },[onInitNews, clearNews,initialUrl]);
     
-useEffect(() => {
-    clearNews();
-    //clearSearchField();
-    onInitNews(initialUrl);
-    setCurrentPage(1);
-  },[onInitNews, clearNews, initialUrl]);
-
-  useEffect(() => {
-    clearSearchField();
-    clearNews();
-    setCurrentPage(1);
-  },[onInitNews]);
-
-   
-
-
-      const loadMorePages = () => {
-          if (currentPage <= Math.ceil(props.articles.length/20)) {
-            setTimeout(function(){setCurrentPage(currentPage+1); }, 300);
-          }
-          initNewsPages(additionalPagesUrl); 
-      };
+    //Timeout so the "load more "button does not get inactive during fetching
+    const loadMorePages = () => {
+        if (currentPage <= Math.ceil(props.articles.length/20)) {
+            setTimeout(function(){setCurrentPage(currentPage+1); }, 400);
+        }
+        initNewsPages(additionalPagesUrl); 
+    };
 
 
 
       const MainComponent = () => (
         <div className="bg-secondary mx-12 md:mx-24 lg:mx-40 py-6">
-        <div className="font-extrabold text-2xl border-b border-black m-4">TOP HEADLINES</div>
+        <div className="font-extrabold text-2xl border-b border-black m-4">{search.length ? "SEARCHED ARTICLES" : "TOP HEADLINES"}</div>
         <div className="flex flex-wrap items-start justify-center" >
         { 
             props.articles.map(article => (<div className="w-full md:w-1/2" key={article.publishedAt} ><Article article={article}/> </div>))
@@ -60,33 +65,34 @@ useEffect(() => {
             <div className={`text-center mt-12 mb-6 ${currentPage > Math.ceil(props.articles.length/20) ? 'opacity-50 pointer-events-none' : ''}`}><CustomButtom onLoadMore={loadMorePages} buttonLoader={props.buttonLoader}>{currentPage > Math.ceil(props.articles.length/20) ? 'No new articles' : 'Load more'}</CustomButtom></div>
         </div>);
 
-console.log(search)
-
     return(
 
+        //Show spinner while fetching data
         <div className="pt-16">
             { props.isLoading ? <Spinner/> :<MainComponent/> }
         </div>
     
-    )};
+    )
+};
 
-    const mapStateToProps = state => {
-        return {
-            articles:state.articles.top_articles,
-            isLoading:state.articles.isLoading,
-            buttonLoader:state.articles.buttonLoader,
-            search:state.search.searchField
-        }
-    };
+const mapStateToProps = state => {
+    return {
+        articles:state.articles.top_articles,
+        isLoading:state.articles.isLoading,
+        buttonLoader:state.articles.buttonLoader,
+        search:state.search.searchField,
+        sortBy:state.search.sortBy
+    }
+};
 
-    const mapDispatchToProps = dispatch => {
-        return {
-            onInitNews: (url) => dispatch(initNews(url)),
-            initNewsPages: (page) => dispatch (initNewsPages(page)),
-            clearNews: () => dispatch(clearNews()),
-            clearSearchField : () => dispatch(clearSearchField())
-        }
-    };
+const mapDispatchToProps = dispatch => {
+    return {
+        onInitNews: (url) => dispatch(initNews(url)),
+        initNewsPages: (page) => dispatch (initNewsPages(page)),
+        clearNews: () => dispatch(clearNews()),
+        clearSearchField : () => dispatch(clearSearchField())
+    }
+};
 
 
 export default connect(mapStateToProps,mapDispatchToProps)(HomePage);

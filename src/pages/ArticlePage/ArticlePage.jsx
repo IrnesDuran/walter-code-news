@@ -2,15 +2,17 @@ import React, {useEffect} from 'react';
 import { connect } from 'react-redux';
 
 const ArticlePage = (props) => {
-
+  
     const relatedArticle = props.articles.filter(article=>article.title===props.match.params.article)
     const date = new Date(relatedArticle[0].publishedAt);
     const displayDate = date.toDateString().replace(' ', ', ');
 
     useEffect(() => {
       window.scrollTo(0,0);
+  
     },[]);
 
+ 
     return(
         <div className="h-full mx-24 lg:mx-48 bg-white py-32 px-10 lg:px-32 m-auto">
             <h1 className="font-black text-xl md:text-4xl">{relatedArticle[0].title}</h1>
@@ -27,19 +29,10 @@ const ArticlePage = (props) => {
         </div>
     )};
 
-    const mapStateToProps = state => {
-      return  {
-        articles:state.articles.top_articles,
-      }
-    };
+const mapStateToProps = state => {
+  return  {
+    articles:state.articles.top_articles,
+  }
+};
 
 export default connect (mapStateToProps)(ArticlePage);
-
-// {
-//     "source": {
-//         "id": "ars-technica",
-//         "name": "Ars Technica"
-//     },
-
-//     "url": "https://arstechnica.com/science/2020/05/large-chunks-of-a-chinese-rocket-missed-new-york-city-by-about-15-minutes/",
-

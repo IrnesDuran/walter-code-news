@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 
 const Article = (props) => {
     return(
-        <div className="card flex flex-col bg-white m-4">
+        <div className="group flex flex-col bg-white m-4 transform hover:-translate-y-1 hover:shadow-md transition ease-in-out duration-100">
             <div className="flex-1 relative">
                 <img className="object-cover w-full h-64 object-center" 
                 src={props.article.urlToImage ? props.article.urlToImage :"https://upload.wikimedia.org/wikipedia/commons/f/fc/No_picture_available.png"} alt="Article"/>
@@ -12,8 +12,8 @@ const Article = (props) => {
             <div className="w-full h-64 p-4 flex flex-col justify-between">
                 <h1 className="text-lg font-black">{props.article.title}</h1>
                 <p className="text-sm">{props.article.description}</p>
-                <a className="hover:text-tertiary text-teal-500 cursor-pointer w-28 self-end"
-                    onClick={() => props.history.push(`articles/${props.article.title}`)}>Read full article &rarr;</a>
+                <button className="text-teal-500 cursor-pointer w-28 self-end hover:text-tertiary transform scale-0 group-hover:scale-100 transition ease-in-out duration-100"
+                    onClick={() => props.history.push(`articles/${props.article.title}`)}>Read full article &rarr;</button>
             </div>
         </div>
 

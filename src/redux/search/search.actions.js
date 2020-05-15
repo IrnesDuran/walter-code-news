@@ -6,7 +6,14 @@ export const setSearchField = (text) => ({
 });
 
 
-export const clearSearchField = (text) => ({
+export const clearSearchField = () => ({
     type: searchActionTypes.CLEAR_SEARCHFIELD,
 });
+
+export const setSortBy = (text) => ({
+    type: searchActionTypes.SET_SORT_BY,
+    payload: text
+});
+
+
 

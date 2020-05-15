@@ -30,14 +30,24 @@ export const initNews = (url) => {
     return dispatch => {
         dispatch(setIsLoading());
 
-        const fetchData = async () => {
-          const res = await fetch(url);
-          const results = await res.json();
+        try {
+            const fetchData = async () => {
+                const res = await fetch(url);
+                const results = await res.json();
+                  
+                dispatch(setTopNews(results.articles));
+      
+              };
+              fetchData();
             
-          dispatch(setTopNews(results.articles));
+        } catch (error) { 
+        
+            console.error(error) 
+      
+      }
 
-        };
-        fetchData();
+        
+
     }
 };
 

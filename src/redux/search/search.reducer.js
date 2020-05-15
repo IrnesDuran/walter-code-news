@@ -1,7 +1,8 @@
 import { searchActionTypes } from './search.types';
 
 const INITIAL_STATE = {
-    searchField:''
+    searchField:'',
+    sortBy: 'publishedAt'
 };
 
 const searchReducer = (state = INITIAL_STATE, action) => {
@@ -13,7 +14,11 @@ const searchReducer = (state = INITIAL_STATE, action) => {
         case searchActionTypes.CLEAR_SEARCHFIELD:
             return {...state,
                 searchField: ''
-            };           
+            }; 
+        case searchActionTypes.SET_SORT_BY:
+            return {...state,
+                sortBy:action.text
+            };                        
         default:
             return state;
     }

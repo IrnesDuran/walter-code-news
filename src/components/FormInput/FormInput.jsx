@@ -2,12 +2,14 @@ import React from 'react';
 
 import {connect} from 'react-redux';
 
+import { searchActionTypes } from '../../redux/search/search.types';
+
 const FormInput =({setSearchField,search}) => {
-    console.log(search)
-return(
-    <div className='group text-white' >
+
+  return(
+    <div className='group text-white w-40 m-1' >
         <input 
-            className=' bg-transparent outline-none border border-white rounded-md py-1 px-3 focus:border-teal-500'
+            className=' bg-transparent outline-none border border-white rounded-md py-1 px-3 focus:border-teal-500 w-full'
             onChange={setSearchField}
             name="search" 
             type='search'
@@ -25,7 +27,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps =  dispatch => {
     return{
         setSearchField: e =>{
-            dispatch({type:'SET_SEARCHFIELD', text: e.target.value});
+            dispatch({type:searchActionTypes.SET_SEARCHFIELD, text: e.target.value});
         },
     };
   };
