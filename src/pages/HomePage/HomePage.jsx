@@ -20,7 +20,7 @@ const HomePage = (props) => {
     const delimitedSearch = search.split(' ').join('%20');
 
     //URL endpoint selection, whether it is for top articles, or searched terms
-    const initialUrl =  search.length ? `https://newsapi.org/v2/everything?q="${delimitedSearch}"&sortBy=${sortBy}&apiKey=e0966cb0fcd14b89aab54ea0bea5f22d`:`http://newsapi.org/v2/top-headlines?country=us&apiKey=e0966cb0fcd14b89aab54ea0bea5f22d`;
+    const initialUrl =  search.length>0 ? `https://newsapi.org/v2/everything?q="${delimitedSearch}"&sortBy=${sortBy}&apiKey=e0966cb0fcd14b89aab54ea0bea5f22d`:`http://newsapi.org/v2/top-headlines?country=us&apiKey=e0966cb0fcd14b89aab54ea0bea5f22d`;
 
     //URL endpoint selection, whether it is for top articles additional pages, or searched terms additional pages
     const additionalPagesUrl = search.length ? `https://newsapi.org/v2/everything?q="${delimitedSearch}"&sortBy=${sortBy}&page=${currentPage+1}&apiKey=e0966cb0fcd14b89aab54ea0bea5f22d`: `http://newsapi.org/v2/top-headlines?country=us&page=${currentPage+1}&apiKey=e0966cb0fcd14b89aab54ea0bea5f22d`;
