@@ -68,7 +68,7 @@ const HomePage = (props) => {
     return(
 
         //Show spinner while fetching data
-        <div className="pt-16">
+        <div className="pt-32 sm:pt-16">
             { props.isLoading ? <Spinner/> :<MainComponent/> }
         </div>
     
