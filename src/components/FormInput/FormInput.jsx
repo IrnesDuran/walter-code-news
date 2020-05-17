@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 
 import { searchActionTypes } from '../../redux/search/search.types';
 
-const FormInput =({setSearchField,search}) => {
+export const FormInput =({setSearchField,search}) => {
 
   return(
     <div className='group text-white w-40 m-1' >
